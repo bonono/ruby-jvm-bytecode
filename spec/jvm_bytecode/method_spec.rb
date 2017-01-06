@@ -1,4 +1,4 @@
-describe JvmBytecode::Field do
+describe JvmBytecode::Method do
   let(:cp) { JvmBytecode::ConstantPool.new }
   let(:instance) { described_class.new(cp) }
 

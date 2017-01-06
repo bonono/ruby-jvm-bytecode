@@ -23,6 +23,7 @@ require 'jvm_bytecode/attributes/code'
 require 'jvm_bytecode/attributes/source_file'
 require 'jvm_bytecode/attributes_field'
 
+require 'jvm_bytecode/common_definition_structure'
 require 'jvm_bytecode/field'
 require 'jvm_bytecode/method'
 require 'jvm_bytecode/constant_pool'
