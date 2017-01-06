@@ -43,8 +43,8 @@ describe JvmBytecode::Attributes::Attribute do
   end
 
   describe '#additional_bytecode' do
-    subject { instance.additional_bytecode }
-    it { expect { subject }.to raise_error(NotImplementedError) }
+    subject { instance.send(:additional_bytecode) }
+    it { is_expected.to eq '' }
   end
 
   describe '#bytecode' do

@@ -9,7 +9,7 @@ module JvmBytecode
     include AccessFlag
     include AttributesField
 
-    # Decode concatenated structure length and structures
+    # Decode bytecode concatenates structure length and structures
     #
     # @param cp [JvmBytecode::ConstantPool]
     # @param io [IO]

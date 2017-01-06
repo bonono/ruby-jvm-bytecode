@@ -8,6 +8,8 @@ module JvmBytecode
       class << self
         attr_reader :attr_name, :locations
         
+        # @param name [String, nil]
+        # @param location [Array<Symbol>]
         def define(name: nil, location:)
           @attr_name = name || shortname.encode('UTF-8')
           @locations = location
@@ -16,14 +18,25 @@ module JvmBytecode
           @@attributes[@attr_name] = self
         end
 
+        # Get attribute class speficified by argument
+        #
+        # @param attr_name [String]
+        # @raise [JvmBytecode::Errors::AttributeError]
+        # @return [JvmBytecode::Attributes::Attribute]
         def fetch(attr_name)
           @@attributes[attr_name] || raise(Errors::AttributeError, "#{attr_name} is not implemented")
         end
 
+        # @return [Array<JvmBytecode::Attributes::Attribute>]
         def all
           @@attributes.values
         end
 
+        # Decode bytecode concatenates "attributes_count" and "attributes" fields
+        #
+        # @param cp [JvmBytecode::ConstantPool]
+        # @param io [IO]
+        # @return [Array<JvmBytecode::Attributes::Attribute>]
         def decode_serial(cp, io)
           n = io.read(2).unpack('S>').first
           Array.new(n) do
@@ -39,13 +52,28 @@ module JvmBytecode
         @cp = cp
       end
 
-      def additional_bytecode
-        raise NotImplementedError, "#{self.class}##{__method__} is not implemented!"
-      end
-
+      # Return bytecode
+      #
+      # @return [String] ASCII-8BIT string
       def bytecode
         bc = additional_bytecode
         [cp.utf8(self.class.attr_name), bc.length].pack('S>I>') + bc
+      end
+
+      # @return [Hash]
+      def to_hash
+        {
+          type: self.class.attr_name
+        }
+      end
+
+      protected 
+
+      # Subclass should implement this method to return bytecode
+      #
+      # @return [String]
+      def additional_bytecode
+        ''
       end
     end
   end

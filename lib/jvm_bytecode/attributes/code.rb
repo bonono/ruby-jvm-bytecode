@@ -48,12 +48,11 @@ module JvmBytecode
       end
 
       def to_hash
-        {
-          type: self.class.name.split('::').last,
+        super.merge({
           max_stack: @max_stack,
           max_local_variables: @max_locals,
           instructions: @instructions.map(&:to_hash)
-        }
+        })
       end
     end
   end
