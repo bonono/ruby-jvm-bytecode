@@ -13,12 +13,12 @@ module JvmBytecode
         @name_index = name_index
       end
 
-      def additional_bytecode
-        [@name_index].pack('S>')
+      def bytecode
+        super + [@name_index].pack('S>')
       end
 
       def to_hash
-        { name_index: @name_index }
+        super.merge({ name_index: @name_index })
       end
     end
   end 

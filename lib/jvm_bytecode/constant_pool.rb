@@ -74,10 +74,7 @@ module JvmBytecode
 
     def to_hash
       @constants.map.with_index do |const, i|
-        { 
-          index: i + 1,
-          type: const.class.name.split('::').last.gsub('Constant', '')
-        }.merge(const.to_hash)
+        const.to_hash.merge(index: i + 1)
       end
     end
   end

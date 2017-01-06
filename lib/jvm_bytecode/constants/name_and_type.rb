@@ -15,15 +15,15 @@ module JvmBytecode
         @descriptor_index = descriptor_index
       end
 
-      def additional_bytecode
-        [@name_index, @descriptor_index].pack('S>2')
+      def bytecode
+        super + [@name_index, @descriptor_index].pack('S>2')
       end
 
       def to_hash
-        {
+        super.merge({
           name_index: @name_index,
           descriptor_index: @descriptor_index
-        }
+        })
       end
     end
   end 

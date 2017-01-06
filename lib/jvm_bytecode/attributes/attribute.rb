@@ -67,7 +67,7 @@ module JvmBytecode
         }
       end
 
-      protected 
+      protected
 
       # Subclass should implement this method to return bytecode
       #

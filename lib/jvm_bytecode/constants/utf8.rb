@@ -17,13 +17,13 @@ module JvmBytecode
         @str
       end
 
-      def additional_bytecode
+      def bytecode
         s = @str.dup.force_encoding('ASCII-8BIT')
-        [s.length].pack('S>') + s
+        super + [s.length].pack('S>') + s
       end
 
       def to_hash
-        { string: @str }
+        super.merge({ string: @str })
       end
     end
   end 
