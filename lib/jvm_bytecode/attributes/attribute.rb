@@ -18,8 +18,8 @@ module JvmBytecode
           @@attributes[attr_name] || raise(Errors::AttributeError, "#{attr_name} is not implemented")
         end
 
-        def locatable_at(loc)
-          @@attributes.select { |_, v| v.locations.include?(loc) }
+        def all
+          @@attributes.values
         end
 
         def decode_serial(cp, io)

@@ -2,6 +2,7 @@ module JvmBytecode
   class Field
     using Extensions
     include AccessFlag
+    include AttributesField
 
     ACCESS_FLAGS = {
       public: 0x0001,
@@ -25,7 +26,6 @@ module JvmBytecode
       @cp = cp
       @name = 0
       @descriptor = 0
-      @attributes = []
     end
 
     def name(n)
@@ -37,15 +37,13 @@ module JvmBytecode
     end
 
     def bytecode
-      [access_flag, @name, @descriptor].pack('S>3') +
-      @attributes.join_bytecodes
+      [access_flag, @name, @descriptor].pack('S>3') + attributes.join_bytecodes
     end
 
     def decode(io)
       acc_flag, @name, @descriptor = io.read(6).unpack('S>3')
       set_access_flag(acc_flag)
-      
-      @attributes = Attributes::Attribute.decode_serial(@cp, io)
+      set_attributes(Attributes::Attribute.decode_serial(@cp, io))
     end
 
     def to_hash

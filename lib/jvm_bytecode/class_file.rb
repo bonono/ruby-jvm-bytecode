@@ -2,6 +2,7 @@ module JvmBytecode
   class ClassFile
     using Extensions
     include AccessFlag
+    include AttributesField
 
     MAGIC_NUMBER = [0xCA, 0xFE, 0xBA, 0xBE].pack('C4').freeze
     ACCESS_FLAGS = {
@@ -31,7 +32,6 @@ module JvmBytecode
       @interfaces = []
       @fields = []
       @methods = []
-      @attributes = []
 
       self.instance_eval(&block) if block_given?
     end
@@ -68,21 +68,15 @@ module JvmBytecode
       add_method(new_method).tap { |m| m.instance_eval(&block) if block_given?}
     end
 
-    def source_file(filename)
-      @attributes << Attributes::SourceFile.new(@cp).tap do |a|
-        a.filename(filename)
-      end
-    end
-
     def bytecode
-      version    = [@minor_ver, @major_ver].pack('S>*')
-      classes    = [access_flag, @this_class, @super_class].pack('S>*')
-      interfaces = ([@interfaces.length] + @interfaces).pack("S>*")
-      fields     = @fields.join_bytecodes
-      methods    = @methods.join_bytecodes
-      attributes = @attributes.join_bytecodes
+      v = [@minor_ver, @major_ver].pack('S>*')
+      c = [access_flag, @this_class, @super_class].pack('S>*')
+      i = ([@interfaces.length] + @interfaces).pack("S>*")
+      f = @fields.join_bytecodes
+      m = @methods.join_bytecodes
+      a = attributes.join_bytecodes
 
-      MAGIC_NUMBER + version + @cp.bytecode + classes + interfaces + fields + methods + attributes
+      MAGIC_NUMBER + v + @cp.bytecode + c + i + f + m + a
     end
 
     def decode(io)
@@ -100,6 +94,8 @@ module JvmBytecode
 
       @fields = Field.decode_serial(@cp, io)
       @methods = Method.decode_serial(@cp, io)
+
+      set_attributes(Attributes::Attribute.decode_serial(@cp, io))
     end
 
     def to_hash
@@ -110,7 +106,8 @@ module JvmBytecode
         access_flag: readable_access_flag,
         this_class: @this_class,
         super_class: @super_class,
-        methods: @methods.map(&:to_hash)
+        methods: @methods.map(&:to_hash),
+        attributes: attributes.map(&:to_hash)
       }
     end
   end

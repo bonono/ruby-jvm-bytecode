@@ -2,6 +2,7 @@ module JvmBytecode
   class Method
     using Extensions
     include AccessFlag
+    include AttributesField
 
     ACCESS_FLAGS = {
       public: 0x0001,
@@ -18,6 +19,8 @@ module JvmBytecode
       synthetic: 0x1000
     }.freeze 
 
+    attr_reader :cp
+
     def self.decode_serial(cp, io)
       Array.new(io.read(2).unpack('S>').first) do 
         new(cp).tap { |m| m.decode(io) }
@@ -28,7 +31,6 @@ module JvmBytecode
       @cp = cp
       @name = 0
       @descriptor = 0
-      @attributes = []
     end
 
     def name(n)
@@ -39,22 +41,15 @@ module JvmBytecode
       @descriptor = @cp.index_or_utf8(d)
     end
 
-    def code(&block)
-      @attributes
-        .push(Attributes::Code.new(@cp))
-        .last
-        .instance_eval(&block)
-    end
-
     def bytecode
-      [access_flag, @name, @descriptor].pack('S>*') + @attributes.join_bytecodes
+      [access_flag, @name, @descriptor].pack('S>*') + attributes.join_bytecodes
     end
 
     def decode(io)
       acc_flag, @name, @descriptor = io.read(6).unpack('S>3')
-      set_access_flag(acc_flag)
 
-      @attributes = Attributes::Attribute.decode_serial(@cp, io)
+      set_access_flag(acc_flag)
+      set_attributes(Attributes::Attribute.decode_serial(@cp, io))
     end
 
     def to_hash
@@ -62,7 +57,7 @@ module JvmBytecode
         name_index: @name,
         descriptor_index: @descriptor,
         access_flag: access_flag,
-        attributes: @attributes.map(&:to_hash)
+        attributes: attributes.map(&:to_hash)
       }
     end
   end

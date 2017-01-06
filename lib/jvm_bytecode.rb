@@ -20,6 +20,7 @@ require 'jvm_bytecode/instructions/instruction_set'
 require 'jvm_bytecode/attributes/attribute'
 require 'jvm_bytecode/attributes/code'
 require 'jvm_bytecode/attributes/source_file'
+require 'jvm_bytecode/attributes_field'
 
 require 'jvm_bytecode/field'
 require 'jvm_bytecode/method'
