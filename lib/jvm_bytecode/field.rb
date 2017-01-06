@@ -22,18 +22,22 @@ module JvmBytecode
       end
     end
 
+    attr_reader :cp
+
     def initialize(cp)
       @cp = cp
       @name = 0
       @descriptor = 0
     end
 
-    def name(n)
-      @name = @cp.index_or_utf8(n)
+    def name(n = nil)
+      @name = cp.index_or_utf8(n) if n
+      @name
     end
 
-    def descriptor(d)
-      @descriptor = @cp.index_or_utf8(d)
+    def descriptor(d = nil)
+      @descriptor = cp.index_or_utf8(d) if d
+      @descriptor
     end
 
     def bytecode
@@ -43,11 +47,16 @@ module JvmBytecode
     def decode(io)
       acc_flag, @name, @descriptor = io.read(6).unpack('S>3')
       set_access_flag(acc_flag)
-      set_attributes(Attributes::Attribute.decode_serial(@cp, io))
+      set_attributes(Attributes::Attribute.decode_serial(cp, io))
     end
 
     def to_hash
-      {}
+      {
+        access_flag: readable_access_flag,
+        name_index: name,
+        descriptor_index: descriptor,
+        attributes: attributes.map(&:to_hash)
+      }
     end
   end
 end

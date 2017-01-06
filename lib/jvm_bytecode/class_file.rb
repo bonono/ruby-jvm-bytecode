@@ -40,6 +40,8 @@ module JvmBytecode
       @cp.tap { |cp| cp.instance_eval(&block) if block_given? }
     end
 
+    alias_method :cp, :constant_pool
+
     def minor_version(v)
       @minor_ver = v
     end
