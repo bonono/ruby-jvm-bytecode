@@ -1,16 +1,36 @@
 module JvmBytecode
   module Instructions
     4.times do |n|
-      # iload_(0|1|2|3)
-      Class.new(Instruction) do
-        format opcode: 0x1A + n, mnemonic: "iload_#{n}"
-      end
+      Class.new(Instruction) { format opcode: 0x1A + n, mnemonic: "iload_#{n}" }
+      Class.new(Instruction) { format opcode: 0x1E + n, mnemonic: "lload_#{n}" }
+      Class.new(Instruction) { format opcode: 0x22 + n, mnemonic: "fload_#{n}" }
+      Class.new(Instruction) { format opcode: 0x26 + n, mnemonic: "dload_#{n}" }
+      Class.new(Instruction) { format opcode: 0x2A + n, mnemonic: "aload_#{n}" }
 
-      # aload_(0|1|2|3)
-      Class.new(Instruction) do
-        format opcode: 0x2A + n, mnemonic: "aload_#{n}"
-      end
+      Class.new(Instruction) { format opcode: 0x3B + n, mnemonic: "istore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x3F + n, mnemonic: "lstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x43 + n, mnemonic: "fstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x47 + n, mnemonic: "dstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x4B + n, mnemonic: "astore_#{n}" }
     end
+
+    class IALoad < Instruction; format opcode: 0x2E; end
+    class LALoad < Instruction; format opcode: 0x2F; end
+    class FALoad < Instruction; format opcode: 0x30; end
+    class DALoad < Instruction; format opcode: 0x31; end
+    class AALoad < Instruction; format opcode: 0x32; end
+    class BALoad < Instruction; format opcode: 0x33; end
+    class CALoad < Instruction; format opcode: 0x34; end
+    class SALoad < Instruction; format opcode: 0x35; end
+
+    class IAStore < Instruction; format opcode: 0x4F; end
+    class LAStore < Instruction; format opcode: 0x50; end
+    class FAStore < Instruction; format opcode: 0x51; end
+    class DAStore < Instruction; format opcode: 0x52; end
+    class AAStore < Instruction; format opcode: 0x53; end
+    class BAStore < Instruction; format opcode: 0x54; end
+    class CAStore < Instruction; format opcode: 0x55; end
+    class SAStore < Instruction; format opcode: 0x56; end
 
     class IAdd < Instruction
       format opcode: 0x60
