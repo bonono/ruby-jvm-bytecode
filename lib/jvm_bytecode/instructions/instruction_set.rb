@@ -36,6 +36,26 @@ module JvmBytecode
       format opcode: 0x60
     end 
 
+    class I2L < Instruction; format opcode: 0x85; end
+    class I2F < Instruction; format opcode: 0x86; end
+    class I2D < Instruction; format opcode: 0x87; end
+
+    class L2I < Instruction; format opcode: 0x88; end
+    class L2F < Instruction; format opcode: 0x89; end
+    class L2D < Instruction; format opcode: 0x8A; end
+
+    class F2I < Instruction; format opcode: 0x8B; end
+    class F2L < Instruction; format opcode: 0x8C; end
+    class F2D < Instruction; format opcode: 0x8D; end
+
+    class D2I < Instruction; format opcode: 0x8E; end
+    class D2L < Instruction; format opcode: 0x8F; end
+    class D2F < Instruction; format opcode: 0x90; end
+
+    class I2B < Instruction; format opcode: 0x91; end
+    class I2C < Instruction; format opcode: 0x92; end
+    class I2S < Instruction; format opcode: 0x93; end
+
     class IReturn < Instruction; format opcode: 0xAC; end
     class LReturn < Instruction; format opcode: 0xAD; end
     class FReturn < Instruction; format opcode: 0xAE; end
