@@ -15,7 +15,7 @@ module JvmBytecode
     # @param io [IO]
     # @return [Array<JvmBytecode::CommonDefinitionStructure>]
     def self.decode_serial(cp, io)
-      Array.new(io.read(2).unpack('S>').first) do 
+      Array.new(io.read(2).unpack('S>').first) do
         new(cp).tap { |cds| cds.decode(io) }
       end
     end
