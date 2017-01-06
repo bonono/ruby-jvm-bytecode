@@ -1,17 +1,13 @@
 module JvmBytecode
   module Instructions
+    # 0x15 ~ 0x19 (i|l|f|d|a)load
+
     4.times do |n|
       Class.new(Instruction) { format opcode: 0x1A + n, mnemonic: "iload_#{n}" }
       Class.new(Instruction) { format opcode: 0x1E + n, mnemonic: "lload_#{n}" }
       Class.new(Instruction) { format opcode: 0x22 + n, mnemonic: "fload_#{n}" }
       Class.new(Instruction) { format opcode: 0x26 + n, mnemonic: "dload_#{n}" }
       Class.new(Instruction) { format opcode: 0x2A + n, mnemonic: "aload_#{n}" }
-
-      Class.new(Instruction) { format opcode: 0x3B + n, mnemonic: "istore_#{n}" }
-      Class.new(Instruction) { format opcode: 0x3F + n, mnemonic: "lstore_#{n}" }
-      Class.new(Instruction) { format opcode: 0x43 + n, mnemonic: "fstore_#{n}" }
-      Class.new(Instruction) { format opcode: 0x47 + n, mnemonic: "dstore_#{n}" }
-      Class.new(Instruction) { format opcode: 0x4B + n, mnemonic: "astore_#{n}" }
     end
 
     class IALoad < Instruction; format opcode: 0x2E; end
@@ -22,6 +18,16 @@ module JvmBytecode
     class BALoad < Instruction; format opcode: 0x33; end
     class CALoad < Instruction; format opcode: 0x34; end
     class SALoad < Instruction; format opcode: 0x35; end
+
+    # 0x36 ~ 0x3A (i|l|f|d|a)store
+
+    4.times do |n|
+      Class.new(Instruction) { format opcode: 0x3B + n, mnemonic: "istore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x3F + n, mnemonic: "lstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x43 + n, mnemonic: "fstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x47 + n, mnemonic: "dstore_#{n}" }
+      Class.new(Instruction) { format opcode: 0x4B + n, mnemonic: "astore_#{n}" }
+    end
 
     class IAStore < Instruction; format opcode: 0x4F; end
     class LAStore < Instruction; format opcode: 0x50; end
@@ -64,6 +70,8 @@ module JvmBytecode
     class IXor < Instruction;  format opcode: 0x82; end
     class LXor < Instruction;  format opcode: 0x83; end
 
+    # 0x84 iinc
+
     class I2L < Instruction; format opcode: 0x85; end
     class I2F < Instruction; format opcode: 0x86; end
     class I2D < Instruction; format opcode: 0x87; end
@@ -83,6 +91,12 @@ module JvmBytecode
     class I2B < Instruction; format opcode: 0x91; end
     class I2C < Instruction; format opcode: 0x92; end
     class I2S < Instruction; format opcode: 0x93; end
+
+    class LCmp < Instruction;  format opcode: 0x94; end
+    class FCmpL < Instruction; format opcode: 0x95; end
+    class FCmpG < Instruction; format opcode: 0x96; end
+    class DCmpL < Instruction; format opcode: 0x97; end
+    class DCmpG < Instruction; format opcode: 0x98; end
 
     class IReturn < Instruction; format opcode: 0xAC; end
     class LReturn < Instruction; format opcode: 0xAD; end
