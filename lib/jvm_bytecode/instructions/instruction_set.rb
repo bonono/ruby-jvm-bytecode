@@ -36,9 +36,11 @@ module JvmBytecode
       format opcode: 0x60
     end 
 
-    class IReturn < Instruction
-      format opcode: 0xAC
-    end
+    class IReturn < Instruction; format opcode: 0xAC; end
+    class LReturn < Instruction; format opcode: 0xAD; end
+    class FReturn < Instruction; format opcode: 0xAE; end
+    class DReturn < Instruction; format opcode: 0xAF; end
+    class AReturn < Instruction; format opcode: 0xB0; end
 
     class Return < Instruction
       format opcode: 0xB1, mnemonic: '_return'
