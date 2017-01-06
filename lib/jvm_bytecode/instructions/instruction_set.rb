@@ -42,10 +42,27 @@ module JvmBytecode
     class Dup2X2 < Instruction; format opcode: 0x5E; end
     class Swap < Instruction;   format opcode: 0x5F; end
 
-    class IAdd < Instruction; format opcode: 0x60; end
-    class LAdd < Instruction; format opcode: 0x61; end
-    class FAdd < Instruction; format opcode: 0x62; end
-    class DAdd < Instruction; format opcode: 0x62; end
+    %w(i l f d).each.with_index do |t, i|
+      Class.new(Instruction) { format opcode: 0x60 + i, mnemonic: "#{t}add" }
+      Class.new(Instruction) { format opcode: 0x64 + i, mnemonic: "#{t}sub" }
+      Class.new(Instruction) { format opcode: 0x68 + i, mnemonic: "#{t}mul" }
+      Class.new(Instruction) { format opcode: 0x6C + i, mnemonic: "#{t}div" }
+      Class.new(Instruction) { format opcode: 0x70 + i, mnemonic: "#{t}rem" }
+      Class.new(Instruction) { format opcode: 0x74 + i, mnemonic: "#{t}neg" }
+    end
+
+    class IShL < Instruction;  format opcode: 0x78; end
+    class LShL < Instruction;  format opcode: 0x79; end
+    class IShR < Instruction;  format opcode: 0x7A; end
+    class LShR < Instruction;  format opcode: 0x7B; end
+    class IUShR < Instruction; format opcode: 0x7C; end
+    class LUShR < Instruction; format opcode: 0x7D; end
+    class IAnd < Instruction;  format opcode: 0x7E; end
+    class LAnd < Instruction;  format opcode: 0x7F; end
+    class IOr < Instruction;   format opcode: 0x80; end
+    class LOr < Instruction;   format opcode: 0x81; end
+    class IXor < Instruction;  format opcode: 0x82; end
+    class LXor < Instruction;  format opcode: 0x83; end
 
     class I2L < Instruction; format opcode: 0x85; end
     class I2F < Instruction; format opcode: 0x86; end
