@@ -1,5 +1,29 @@
 module JvmBytecode
   module Instructions
+    class Nop < Instruction; format opcode: 0x00; end
+
+    class AConstNull < Instruction; format opcode: 0x01, mnemonic: 'aconst_null'; end
+
+    class IConstM1 < Instruction; format opcode: 0x02, mnemonic: 'iconst_m1'; end
+    6.times do |n|
+      Class.new(Instruction) { format opcode: 0x03 + n, mnemonic: "iconst_#{n}" }
+    end
+
+    class LConst0 < Instruction; format opcode: 0x09, mnemonic: 'lconst_0'; end
+    class LConst1 < Instruction; format opcode: 0x0A, mnemonic: 'lconst_1'; end
+
+    class FConst0 < Instruction; format opcode: 0x0B, mnemonic: 'fconst_0'; end
+    class FConst1 < Instruction; format opcode: 0x0C, mnemonic: 'fconst_1'; end
+    class FConst2 < Instruction; format opcode: 0x0D, mnemonic: 'fconst_2'; end
+
+    class DConst0 < Instruction; format opcode: 0x0E, mnemonic: 'dconst_0'; end
+    class DConst1 < Instruction; format opcode: 0x0F, mnemonic: 'dconst_1'; end
+
+    # 0x10 bipush
+    # 0x11 sipush
+    # 0x12 ldc
+    # 0x13 ldc_w
+    # 0x14 ldc2_w
     # 0x15 ~ 0x19 (i|l|f|d|a)load
 
     4.times do |n|
@@ -41,11 +65,11 @@ module JvmBytecode
     class Pop < Instruction;    format opcode: 0x57; end
     class Pop2 < Instruction;   format opcode: 0x58; end
     class Dup < Instruction;    format opcode: 0x59; end
-    class DupX1 < Instruction;  format opcode: 0x5A; end
-    class DupX2 < Instruction;  format opcode: 0x5B; end
+    class DupX1 < Instruction;  format opcode: 0x5A, mnemonic: 'dup_x1'; end
+    class DupX2 < Instruction;  format opcode: 0x5B, mnemonic: 'dup_x2'; end
     class Dup2 < Instruction;   format opcode: 0x5C; end
-    class Dup2X1 < Instruction; format opcode: 0x5D; end
-    class Dup2X2 < Instruction; format opcode: 0x5E; end
+    class Dup2X1 < Instruction; format opcode: 0x5D, mnemonic: 'dup2_x1'; end
+    class Dup2X2 < Instruction; format opcode: 0x5E, mnemonic: 'dup2_x1'; end
     class Swap < Instruction;   format opcode: 0x5F; end
 
     %w(i l f d).each.with_index do |t, i|
