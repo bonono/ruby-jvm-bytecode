@@ -32,9 +32,20 @@ module JvmBytecode
     class CAStore < Instruction; format opcode: 0x55; end
     class SAStore < Instruction; format opcode: 0x56; end
 
-    class IAdd < Instruction
-      format opcode: 0x60
-    end 
+    class Pop < Instruction;    format opcode: 0x57; end
+    class Pop2 < Instruction;   format opcode: 0x58; end
+    class Dup < Instruction;    format opcode: 0x59; end
+    class DupX1 < Instruction;  format opcode: 0x5A; end
+    class DupX2 < Instruction;  format opcode: 0x5B; end
+    class Dup2 < Instruction;   format opcode: 0x5C; end
+    class Dup2X1 < Instruction; format opcode: 0x5D; end
+    class Dup2X2 < Instruction; format opcode: 0x5E; end
+    class Swap < Instruction;   format opcode: 0x5F; end
+
+    class IAdd < Instruction; format opcode: 0x60; end
+    class LAdd < Instruction; format opcode: 0x61; end
+    class FAdd < Instruction; format opcode: 0x62; end
+    class DAdd < Instruction; format opcode: 0x62; end
 
     class I2L < Instruction; format opcode: 0x85; end
     class I2F < Instruction; format opcode: 0x86; end
