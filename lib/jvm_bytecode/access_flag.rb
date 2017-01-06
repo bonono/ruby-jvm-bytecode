@@ -6,18 +6,18 @@ module JvmBytecode
       self.class::ACCESS_FLAGS
     end
 
-    # setter and getter for access flag
+    # Setter and getter for access flag
     #
-    # @param [Array<Symbol>]
+    # @param flags [Array<Symbol>]
     # @return [Integer]
     def access_flag(*flags)
       @acc_flag = flags.map(&all_access_flags.method(:[])).reduce(0, &:|) if flags.any?
       @acc_flag || 0
     end
 
-    # set access flag directly
+    # Set access flag directly
     #
-    # @param [Integer]
+    # @param acc_flag [Integer]
     def set_access_flag(acc_flag)
       @acc_flag = acc_flag
     end
