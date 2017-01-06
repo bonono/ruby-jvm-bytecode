@@ -6,6 +6,7 @@ require 'jvm_bytecode/access_flag'
 require 'jvm_bytecode/errors/constant_error'
 require 'jvm_bytecode/errors/decode_error'
 require 'jvm_bytecode/errors/opcode_error'
+require 'jvm_bytecode/errors/attribute_error'
 
 require 'jvm_bytecode/constants/constant'
 require 'jvm_bytecode/constants/ref'

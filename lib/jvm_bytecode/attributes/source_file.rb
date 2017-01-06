@@ -3,8 +3,9 @@ module JvmBytecode
     class SourceFile < Attribute
       define location: [:class_file]
 
-      def filename(f)
-        @filename = cp.index_or_utf8(f)
+      def filename(f = nil)
+        @filename = cp.index_or_utf8(f) if f
+        @filename
       end
 
       def additional_bytecode

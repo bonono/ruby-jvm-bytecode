@@ -108,6 +108,8 @@ module JvmBytecode
         access_flag: readable_access_flag,
         this_class: @this_class,
         super_class: @super_class,
+        interfaces: @interfaces,
+        fields: @fields.map(&:to_hash),
         methods: @methods.map(&:to_hash),
         attributes: attributes.map(&:to_hash)
       }
