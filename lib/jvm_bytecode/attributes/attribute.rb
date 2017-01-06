@@ -18,7 +18,7 @@ module JvmBytecode
           @@attributes[@attr_name] = self
         end
 
-        # Get attribute class speficified by argument
+        # Get attribute class specified by argument
         #
         # @param attr_name [String]
         # @raise [JvmBytecode::Errors::AttributeError]

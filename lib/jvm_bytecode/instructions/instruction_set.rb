@@ -31,8 +31,8 @@ module JvmBytecode
     class InvokeSpecial < Instruction
       format opcode: 0xB7, size: 3
 
-      def additional_bytecode
-        [args.first].pack('S>')
+      def bytecode
+        super + [args.first].pack('S>')
       end
 
       def decode(io)
