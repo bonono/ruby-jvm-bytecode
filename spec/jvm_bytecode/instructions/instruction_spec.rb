@@ -6,14 +6,14 @@ describe JvmBytecode::Instructions::Instruction do
     subject { described_class.all.map(&:opcode).sort }
 
     it do
-      is_expected.to eq [
-        0x1A, 0x1B, 0x1C, 0x1D,
-        0x2A, 0x2B, 0x2C, 0x2D,
-        0x60,
-        0xAC,
-        0xB1,
-        0xB7
-      ]
+      is_expected.to eq(
+        (0x00..0x0F).to_a +
+        (0x1A..0x35).to_a +
+        (0x3B..0x83).to_a +
+        (0x85..0x98).to_a +
+        (0xAC..0xB1).to_a +
+        [0xB7]
+      )
     end
   end
 
@@ -21,8 +21,8 @@ describe JvmBytecode::Instructions::Instruction do
     subject { described_class.fetch(opcode) }
 
     context 'when received valid opcode' do
-      let(:opcode) { 0x60 }
-      it { is_expected.to be JvmBytecode::Instructions::IAdd}
+      let(:opcode) { 0x00 }
+      it { is_expected.to be JvmBytecode::Instructions::Nop}
     end
 
     context 'when received invalid opcode' do
